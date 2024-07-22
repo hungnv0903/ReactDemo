@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bootstrap 4 Offcanvas Example</title>
+    <!-- Bootstrap 4 CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS cho Offcanvas -->
+    <style>
+        .offcanvas {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            width: 250px;
+            max-width: 100%;
+            padding: 1rem;
+            overflow-y: auto;
+            background-color: #fff;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease-in-out;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        }
+        .offcanvas.show {
+            transform: translateX(0);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <!-- Nút kích hoạt Offcanvas -->
+                <button type="button" class="btn btn-primary" id="offcanvasButton">
+                    Open Offcanvas
+                </button>
+
+                <!-- Khối div chứa Offcanvas -->
+                <div id="offcanvasContainer" style="position: relative;">
+                    <!-- Nội dung Offcanvas -->
+                    <div class="offcanvas" id="offcanvasExample">
+                        <div class="offcanvas-header">
+                            <h5 class="offcanvas-title" id="offcanvasExampleLabel">Offcanvas</h5>
+                            <button type="button" class="close" aria-label="Close" id="closeButton">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="offcanvas-body">
+                            <div>
+                                Some text as placeholder. In real life you can have the elements you have chosen. Like, text, images, lists, etc.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery và Bootstrap 4 JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Script để kiểm tra kích thước màn hình và mở Offcanvas -->
+    <script>
+      document.getElementById('offcanvasButton').addEventListener('click', function () {
+        // Kiểm tra kích thước màn hình
+        if (window.innerWidth < 992) { // 992px là ngưỡng của 'lg' trong Bootstrap 4
+          var offcanvasElement = document.getElementById('offcanvasExample');
+          $(offcanvasElement).toggleClass('show');
+        } else {
+          alert('Offcanvas chỉ được mở trên màn hình nhỏ hơn "lg" (dưới 992px)');
+        }
+      });
+
+      // Đóng offcanvas khi nhấn nút close
+      document.getElementById('closeButton').addEventListener('click', function () {
+        var offcanvasElement = document.getElementById('offcanvasExample');
+        $(offcanvasElement).removeClass('show');
+      });
+    </script>
+</body>
+</html>

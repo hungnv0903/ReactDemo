@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bulma Calendar Range Example</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-calendar/dist/css/bulma-calendar.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">Chọn Ngày</h1>
+        <div class="field">
+            <label class="label">Chọn ngày:</label>
+            <div class="control">
+                <input type="text" id="datepicker" class="input">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bulma-calendar/dist/js/bulma-calendar.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const datepicker = bulmaCalendar.attach('#datepicker', {
+                type: 'date',
+                isRange: true,
+                dateFormat: 'yyyy-mm-dd',
+                lang: 'vi',
+                displayMode: 'default',
+                position: 'bottom-right'
+            });
+
+            datepicker[0].on('select', function(datepicker) {
+                const selectedDates = datepicker.data.value();
+                if (selectedDates.length === 2) {
+                    const startDate = selectedDates[0].toISOString().split('T')[0];
+                    const endDate = selectedDates[1].toISOString().split('T')[0];
+                    document.getElementById('datepicker').value = `${startDate} - ${endDate}`;
+                    console.log(startDate) ; 
+                    console.log(endDate) ; 
+                }
+            });
+        });
+    </script>
+</body>
+</html>

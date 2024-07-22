@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DevExpress Table with Gender Search</title>
+    <!-- Include DevExpress CSS -->
+    <link rel="stylesheet" href="https://cdn3.devexpress.com/jslib/21.2.3/css/dx.light.css">
+    <!-- Include jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Include DevExpress JS -->
+    <script src="https://cdn3.devexpress.com/jslib/21.2.3/js/dx.all.js"></script>
+    <style>
+        .dx-datagrid-search-panel {
+            float: left !important; /* Di chuyển searchPanel sang trái */
+            margin-right: 20px; /* Khoảng cách giữa searchPanel và các phần tử khác */
+        }
+        .avatar-image {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+        .true-icon {
+            color: green;
+            font-weight: bold;
+        }
+        .false-icon {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div id="gridContainer"></div>
+
+    <script>
+        $(function(){
+            const data = [
+                { id: 1, name: "John Doe", age: 30, isActive: true, avatarUrl: "https://example.com/avatar1.jpg", gender: true },
+                { id: 2, name: "Jane Smith", age: 25, isActive: false, avatarUrl: "https://example.com/avatar2.jpg", gender: false },
+                { id: 3, name: "Sam Johnson", age: 40, isActive: true, avatarUrl: "https://example.com/avatar3.jpg", gender: true },
+                { id: 4, name: "Anna White", age: 35, isActive: false, avatarUrl: "https://example.com/avatar4.jpg", gender: false },
+                { id: 5, name: "Paul Brown", age: 28, isActive: true, avatarUrl: "https://example.com/avatar5.jpg", gender: true },
+                { id: 6, name: "Laura Green", age: 32, isActive: false, avatarUrl: "https://example.com/avatar6.jpg", gender: false }
+            ];
+
+            $("#gridContainer").dxDataGrid({
+                dataSource: data,
+                columns: [
+                    {
+                        caption: "#",
+                        alignment: "center",
+                        width: 50,
+                        cellTemplate: function(container, options) {
+                            const rowIndex = options.rowIndex + 1;
+                            $('<div>').text(rowIndex).appendTo(container);
+                        }
+                    },
+                    { 
+                        dataField: "name", 
+                        caption: "Name", 
+                        alignment: "center", 
+                        allowSorting: false,
+                        cellTemplate: function(container, options) {
+                            const name = options.value;
+                            $('<div>').text(name).css('font-weight', 'bold').appendTo(container); // Hiển thị in đậm
+                        }
+                    },
+                    { 
+                        dataField: "age", 
+                        caption: "Age", 
+                        alignment: "center", 
+                        allowSorting: true, // Cho phép sắp xếp theo tuổi
+                        headerFilter: {
+                            allowSearch: true // Cho phép tìm kiếm trong bộ lọc
+                        },
+                        width: 100,
+                        filterRow: {
+                            visible: true // Hiển thị hàng lọc chỉ cho cột age
+                        },
+                        sortOrder: "asc" // Hiển thị biểu tượng sắp xếp tăng dần ngay từ đầu
+                    },
+                    { 
+                        caption: "Avatar",
+                        alignment: "center",
+                        cellTemplate: function(container, options) {
+                            const avatarUrl = options.data.avatarUrl;
+                            $('<img>').attr('src', avatarUrl).addClass('avatar-image').appendTo(container);
+                        },
+                        width: 100
+                    },
+                    { 
+                        dataField: "isActive", 
+                        caption: "Active", 
+                        alignment: "center", 
+                        dataType: "boolean",
+                        cellTemplate: function(container, options) {
+                            const isActive = options.value;
+                            const icon = isActive ? '✔' : '✘';
+                            const iconClass = isActive ? 'true-icon' : 'false-icon';
+                            $('<span>').addClass(iconClass).text(icon).appendTo(container);
+                        },
+                        width: 100 
+                    },
+                    { 
+                        dataField: "gender", 
+                        caption: "Gender", 
+                        alignment: "center",
+                        cellTemplate: function(container, options) {
+                            const gender = options.value;
+                            const displayText = gender ? 'Nam' : 'Nữ';
+                            $('<div>').text(displayText).appendTo(container);
+                        },
+                        width: 100
+                    },
+                    { 
+                        dataField: "genderText",
+                        caption: "Gender Text",
+                        calculateCellValue: function(data) {
+                            return data.gender ? "Nam" : "Nữ";
+                        },
+                        visible: false
+                    }
+                ],
+                showBorders: true,
+                sorting: {
+                    mode: "single" // Chỉ cho phép sắp xếp theo một cột
+                },
+                paging: {
+                    pageSize: 3 // Số lượng hàng trên mỗi trang
+                },
+                pager: {
+                    showPageSizeSelector: true, // Hiển thị chọn kích thước trang
+                    allowedPageSizes: [3, 5, 10], // Các kích thước trang cho phép
+                    showInfo: true, // Hiển thị thông tin về phân trang
+                    showNavigationButtons: true, // Hiển thị nút điều hướng
+                    showAll: true // Hiển thị tùy chọn "Tất cả" khi chọn kích thước lớn nhất
+                },
+                searchPanel: {
+                    visible: true,
+                    width: 240,
+                    placeholder: "Search...",
+                    searchVisibleColumnsOnly: true // Tìm kiếm chỉ trên các cột hiển thị
+                },
+                onContentReady: function(e) {
+                    // Các cài đặt khác nếu cần
+                }
+            });
+        });
+    </script>
+</body>
+</html>
